@@ -17,7 +17,7 @@ const ProductList = () => {
       {/* <img /> */}
       <div
         onClick={GoProductDetail}
-        className="w-60 h-60 bg-pink-300 mb-4 rounded-xl cursor-pointer"
+        className="w-64 h-64 bg-pink-300 mb-4 rounded-xl cursor-pointer"
       />
       <div className="text-xs text-gray-500 mb-1">페이퍼플래닛</div>
       <div

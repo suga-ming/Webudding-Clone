@@ -34,6 +34,15 @@ const Header = () => {
   const goHome = () => {
     navigate("/");
   };
+  const goLogin = () => {
+    navigate("/login");
+  };
+  const goSignUp = () => {
+    navigate("/join");
+  };
+  const goCart = () => {
+    navigate("/cart");
+  };
   return (
     <div>
       <div className="w-full h-8 mt-2 text-white flex justify-center items-center text-xs font-medium bg-we_pink">
@@ -69,13 +78,18 @@ const Header = () => {
           </div>
         </div>
         <div className="w-80 flex items-center">
-          <div>로그인</div>
+          <div className="cursor-pointer" onClick={goLogin}>
+            로그인
+          </div>
           <div className="w-px h-3 mx-2 bg-gray-200" />
-          <div>회원가입</div>
+          <div className="cursor-pointer" onClick={goSignUp}>
+            회원가입
+          </div>
         </div>
         <div className="flex">
           <svg
-            className="w-6 mr-4"
+            onClick={goCart}
+            className="w-6 mr-4 cursor-pointer"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 576 512"
           >
