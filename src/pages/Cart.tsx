@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Solid = styled.div`
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid rgb(209 213 219);
 `;
 
 const Height = styled.div`
