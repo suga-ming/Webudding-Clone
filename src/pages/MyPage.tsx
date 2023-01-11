@@ -9,7 +9,11 @@ const Solid2 = styled.div`
 `;
 
 const Height = styled.div`
-  height: calc(100vh - 180px);
+  height: calc(100vh - 165px);
+`;
+
+const Check = styled.input`
+  accent-color: rgba(255, 57, 91);
 `;
 
 const MyPage = () => {
@@ -44,11 +48,11 @@ const MyPage = () => {
         <div className="flex flex-col ml-8">
           <div className="text-gray-600 mb-2">약관 동의 여부</div>
           <article className="flex items-center text-sm font-semibold">
-            <input type="checkbox" />
+            <input className="accent-we_pink" type="checkbox" checked />
             <div className="ml-2">이메일 수신 동의</div>
           </article>
           <article className="flex items-center text-sm font-semibold mt-1">
-            <input type="checkbox" />
+            <input className="accent-we_pink" type="checkbox" checked />
             <div className="ml-2">SMS 수신 동의</div>
           </article>
           <div className="flex items-center pt-4 mb-7 text-sm text-gray-600">

@@ -89,7 +89,10 @@ const Header = () => {
         </div>
         {login ? (
           <div className="w-80 flex items-center">
-            <div>김보영님</div>
+            <div className="flex items-center">
+              <div className="font-semibold">김보영</div>
+              <div>님</div>
+            </div>
             <div className="w-px h-3 mx-2 bg-gray-200" />
             <div className="cursor-pointer" onClick={Logout}>
               로그아웃

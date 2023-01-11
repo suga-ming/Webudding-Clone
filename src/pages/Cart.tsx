@@ -5,7 +5,7 @@ const Solid = styled.div`
 `;
 
 const Height = styled.div`
-  height: calc(100vh - 180px);
+  height: calc(100vh - 165px);
 `;
 
 const Cart = () => {

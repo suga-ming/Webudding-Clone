@@ -2,20 +2,25 @@ import { useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { emailSignIn, SignInInterface } from "../api/User";
-import { isLogin } from "../store/recoil";
+import { isAccessToken, isLogin, isRefreshToken } from "../store/recoil";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [Login, setLogin] = useRecoilState(isLogin);
-  console.log(Login);
+  const [login, setLogin] = useRecoilState(isLogin);
+  const [token, setAccessTocken] = useRecoilState(isAccessToken);
+  const [reToken, setRefreshToken] = useRecoilState(isRefreshToken);
   const { register, handleSubmit } = useForm<SignInInterface>();
   const onSubmit = async (data: SignInInterface) => {
     const res = await emailSignIn(data);
+    console.log(res?.data.data);
     const resultCode = res?.data.data.resultCode;
     if (resultCode === 1) {
+      const { accessToken, refreshToken } = res?.data.data;
+      setAccessTocken(accessToken);
+      setRefreshToken(refreshToken);
+      setLogin(true);
       alert("로그인 성공");
       navigate("/");
-      setLogin(true);
     } else if (resultCode === 1102) alert("존재하지 않는 계정입니다");
     else if (resultCode === 1103) alert("비밀번호가 틀립니다");
     else if (resultCode === 1101) alert("로그인에 실패하셨습니다");
