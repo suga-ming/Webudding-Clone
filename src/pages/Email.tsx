@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { emailSignUp, SignUpInterface } from "../api/User";
 
@@ -14,20 +15,23 @@ const Input = styled.input`
 `;
 
 const Email = () => {
+  const navigate = useNavigate();
   const { register, handleSubmit, reset } = useForm<SignUpInterface>();
   const onSubmit = async (data: SignUpInterface) => {
     const res = await emailSignUp(data);
     const resultCode = res?.data.data.resultCode;
-    if (resultCode === 1) alert("회원가입 성공");
-    else if (resultCode === 1001) alert("이미 존재하는 계정입니다");
+    if (resultCode === 1) {
+      alert("회원가입 성공");
+      reset({
+        email: "",
+        password: "",
+        name: "",
+        gender: "",
+        phone: "",
+      });
+      navigate("/login");
+    } else if (resultCode === 1001) alert("이미 존재하는 계정입니다");
     else if (resultCode === 1101) alert("회원가입에 실패했습니다");
-    // reset({
-    //   email: "",
-    //   password: "",
-    //   name: "",
-    //   gender: "",
-    //   phone: "",
-    // });
   };
   return (
     <form

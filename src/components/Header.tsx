@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import logo from "../assets/logo.png";
+import { isLogin } from "../store/recoil";
 
 const Logo = styled.img`
   width: 170px;
@@ -30,6 +32,7 @@ const DownSvg = styled.svg`
 `;
 
 const Header = () => {
+  const [login, setLogin] = useRecoilState(isLogin);
   const navigate = useNavigate();
   const goHome = () => {
     navigate("/");
