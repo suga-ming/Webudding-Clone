@@ -33,6 +33,10 @@ const DownSvg = styled.svg`
 
 const Header = () => {
   const [login, setLogin] = useRecoilState(isLogin);
+  const Logout = () => {
+    setLogin(false);
+    navigate("/");
+  };
   const navigate = useNavigate();
   const goHome = () => {
     navigate("/");
@@ -87,7 +91,7 @@ const Header = () => {
           <div className="w-80 flex items-center">
             <div>김보영님</div>
             <div className="w-px h-3 mx-2 bg-gray-200" />
-            <div className="cursor-pointer" onClick={() => setLogin(false)}>
+            <div className="cursor-pointer" onClick={Logout}>
               로그아웃
             </div>
           </div>
