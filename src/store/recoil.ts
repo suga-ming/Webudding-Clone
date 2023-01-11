@@ -10,7 +10,7 @@ export const isLogin = atom({
 });
 
 export const isAccessToken = atom({
-  key: "accessToken",
+  key: "acessToken",
   default: "",
   effects_UNSTABLE: [persistAtom],
 });

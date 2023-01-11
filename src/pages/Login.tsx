@@ -1,22 +1,25 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { emailSignIn, SignInInterface } from "../api/User";
 import { isAccessToken, isLogin, isRefreshToken } from "../store/recoil";
 
 const Login = () => {
   const navigate = useNavigate();
   const [login, setLogin] = useRecoilState(isLogin);
-  const [token, setAccessTocken] = useRecoilState(isAccessToken);
-  const [reToken, setRefreshToken] = useRecoilState(isRefreshToken);
+
+  const setAccessToken = useSetRecoilState(isAccessToken);
+  const setRefreshToken = useSetRecoilState(isRefreshToken);
+  // const [token, setAccessTocken] = useRecoilState(isAccessToken);
+  // const [reToken, setRefreshToken] = useRecoilState(isRefreshToken);
   const { register, handleSubmit } = useForm<SignInInterface>();
   const onSubmit = async (data: SignInInterface) => {
     const res = await emailSignIn(data);
-    console.log(res?.data.data);
     const resultCode = res?.data.data.resultCode;
     if (resultCode === 1) {
-      const { accessToken, refreshToken } = res?.data.data;
-      setAccessTocken(accessToken);
+      const { accessToken, refreshToken } = res?.data.data.data;
+      setAccessToken(accessToken);
       setRefreshToken(refreshToken);
       setLogin(true);
       alert("로그인 성공");
