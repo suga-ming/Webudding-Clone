@@ -1,4 +1,8 @@
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useQuery } from "react-query";
 import styled from "styled-components";
+import { productInterface, productList } from "../api/product";
 import ProductList from "./ProductList";
 
 const DownSvg = styled.svg`
@@ -24,6 +28,19 @@ const Category = styled.span`
 `;
 
 const ProductListArea = () => {
+  //   const { isLoading, data } = useQuery<[productInterface]>(
+  //     "productList",
+  //     productList
+  //   );
+
+  // const [product, setProduct] = useState([]);
+  // useEffect(() => {
+  //   (async (data) => {
+  //     const res = await productList(data);
+  //     setProduct(res.data);
+  //   })();
+  // }, []);
+
   return (
     <div>
       <div className="px-40">

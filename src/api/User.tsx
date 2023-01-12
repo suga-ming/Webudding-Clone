@@ -13,7 +13,16 @@ export interface SignInInterface {
   password: string;
 }
 
-export interface AcessTokenInterface {
+// export interface AcessTokenInterface {
+//   accessToken: string;
+// }
+
+export interface UserInfoInterface {
+  email: string;
+  name: string;
+  gender: string;
+  phone: string;
+  userCode: string;
   accessToken: string;
 }
 
@@ -24,6 +33,7 @@ export const emailSignUp = async (body: SignUpInterface) => {
     console.log(err);
   }
 };
+
 export const emailSignIn = async (body: SignInInterface) => {
   try {
     return await api.post("/auth/email/signIn", body);
@@ -33,7 +43,7 @@ export const emailSignIn = async (body: SignInInterface) => {
 };
 
 // x-access-auth
-export const userInfo = async (body: AcessTokenInterface) => {
+export const userInfo = async (body: UserInfoInterface) => {
   try {
     const { accessToken } = body;
     return await api.get("/user/info", {

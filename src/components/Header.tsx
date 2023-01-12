@@ -1,6 +1,11 @@
+import { userInfo } from "os";
+import { useForm } from "react-hook-form";
+import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import styled from "styled-components";
+import { UserInfoInterface } from "../api/User";
+// import { UserInfoInterface } from "../api/user";
 import logo from "../assets/logo.png";
 import { isLogin, isAccessToken, isRefreshToken } from "../store/recoil";
 
@@ -58,6 +63,12 @@ const Header = () => {
   const goMyPage = () => {
     navigate("/mypage");
   };
+
+  // const { isLoading, data } = useQuery<UserInfoInterface[]>(
+  //   "productList",
+  //   userInfo
+  // );
+
   return (
     <div>
       <div className="w-full h-8 mt-2 text-white flex justify-center items-center text-xs font-medium bg-we_pink">
