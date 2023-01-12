@@ -1,13 +1,22 @@
-import { userInfo } from "os";
 import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import {
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from "recoil";
 import styled from "styled-components";
-import { UserInfoInterface } from "../api/User";
+import { userInfo, UserInfoInterface } from "../api/User";
 // import { UserInfoInterface } from "../api/user";
 import logo from "../assets/logo.png";
-import { isLogin, isAccessToken, isRefreshToken } from "../store/recoil";
+import {
+  isLogin,
+  isAccessToken,
+  isRefreshToken,
+  isUserInfo,
+} from "../store/recoil";
 
 const Logo = styled.img`
   width: 170px;
@@ -37,7 +46,9 @@ const DownSvg = styled.svg`
 `;
 
 const Header = () => {
+  const [userInfoList, setUserInfo] = useRecoilState(isUserInfo);
   const login = useRecoilValue(isLogin);
+  const accessToken = useRecoilValue(isAccessToken);
   const isLoginReset = useResetRecoilState(isLogin);
   const isAccessTokenReset = useResetRecoilState(isAccessToken);
   const isRefreshTokenReset = useResetRecoilState(isRefreshToken);
@@ -64,11 +75,18 @@ const Header = () => {
     navigate("/mypage");
   };
 
-  // const { isLoading, data } = useQuery<UserInfoInterface[]>(
-  //   "productList",
-  //   userInfo
+  // const { isLoading, data } = useQuery<UserInfoInterface>(
+  //   ["userInfo", accessToken],
+  //   () => userInfo(accessToken)
   // );
 
+  if (accessToken !== "") {
+    userInfo(accessToken).then((res) => {
+      const resultCode = res?.data?.data.resultCode;
+      const data = res?.data?.data?.data;
+      setUserInfo(data);
+    });
+  }
   return (
     <div>
       <div className="w-full h-8 mt-2 text-white flex justify-center items-center text-xs font-medium bg-we_pink">
@@ -106,7 +124,7 @@ const Header = () => {
         {login ? (
           <div className="w-80 flex items-center">
             <div className="flex items-center">
-              <div className="font-semibold">김보영</div>
+              {/* <div className="font-semibold">{userInfoList?.name}</div> */}
               <div>님</div>
             </div>
             <div className="w-px h-3 mx-2 bg-gray-200" />

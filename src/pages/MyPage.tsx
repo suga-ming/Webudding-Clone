@@ -1,4 +1,8 @@
+import { useQuery } from "react-query";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { userInfo, UserInfoInterface } from "../api/User";
+import { isAccessToken } from "../store/recoil";
 
 const Solid = styled.div`
   border-bottom: 1px solid rgb(209 213 219);
@@ -12,11 +16,12 @@ const Height = styled.div`
   height: calc(100vh - 165px);
 `;
 
-const Check = styled.input`
-  accent-color: rgba(255, 57, 91);
-`;
-
 const MyPage = () => {
+  const accessToken = useRecoilValue(isAccessToken);
+  // const { isLoading, data } = useQuery<UserInfoInterface>(
+  //   ["userInfo", accessToken],
+  //   () => userInfo(accessToken)
+  // );
   return (
     <Height className="flex flex-col h-full justify-center items-center bg-gray-200">
       <div className="w-3/6 bg-white rounded-xl">
@@ -27,17 +32,17 @@ const MyPage = () => {
           <div className="w-[72px] h-[72px] rounded-full ml-8 bg-we_pink" />
           <div className="ml-6">
             <div className="flex items-end">
-              <div className="text-xl font-semibold mr-2">김보영</div>
+              {/* <div className="text-xl font-semibold mr-2">{data?.name}</div> */}
               <div className="flex items-center text-sm text-gray-400">
                 <div>1999-01-16</div>
                 <div className="h-3 w-px mx-1 bg-gray-400" />
-                <div>여자</div>
+                {/* <div>{data?.gender}</div> */}
               </div>
             </div>
             <div className="font-semibold text-gray-600 my-1">
-              kby9901@naver.com
+              {/* {data?.email} */}
             </div>
-            <div>010-4012-9701</div>
+            {/* <div>{data?.phone}</div> */}
           </div>
         </div>
         <div className="flex justify-center items-center">

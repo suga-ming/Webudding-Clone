@@ -20,3 +20,9 @@ export const isRefreshToken = atom({
   default: "",
   effects_UNSTABLE: [persistAtom],
 });
+
+export const isUserInfo = atom({
+  key: "userInfo",
+  default: {},
+  effects_UNSTABLE: [persistAtom],
+});

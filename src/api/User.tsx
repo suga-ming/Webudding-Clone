@@ -33,7 +33,6 @@ export const emailSignUp = async (body: SignUpInterface) => {
     console.log(err);
   }
 };
-
 export const emailSignIn = async (body: SignInInterface) => {
   try {
     return await api.post("/auth/email/signIn", body);
@@ -43,14 +42,14 @@ export const emailSignIn = async (body: SignInInterface) => {
 };
 
 // x-access-auth
-export const userInfo = async (body: UserInfoInterface) => {
+export const userInfo = async (accessToken: string) => {
   try {
-    const { accessToken } = body;
     return await api.get("/user/info", {
       headers: {
         "x-access-auth": accessToken,
       },
     });
+    // .then((res) => res?.data.data.data);
   } catch (err) {
     console.log(err);
   }
