@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -11,12 +12,7 @@ import styled from "styled-components";
 import { userInfo, UserInfoInterface } from "../api/User";
 // import { UserInfoInterface } from "../api/user";
 import logo from "../assets/logo.png";
-import {
-  isLogin,
-  isAccessToken,
-  isRefreshToken,
-  isUserInfo,
-} from "../store/recoil";
+import { isLogin, isAccessToken, isRefreshToken } from "../store/recoil";
 
 const Logo = styled.img`
   width: 170px;
@@ -46,19 +42,20 @@ const DownSvg = styled.svg`
 `;
 
 const Header = () => {
-  const [userInfoList, setUserInfo] = useRecoilState(isUserInfo);
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
   const login = useRecoilValue(isLogin);
   const accessToken = useRecoilValue(isAccessToken);
   const isLoginReset = useResetRecoilState(isLogin);
   const isAccessTokenReset = useResetRecoilState(isAccessToken);
   const isRefreshTokenReset = useResetRecoilState(isRefreshToken);
+
   const Logout = () => {
     isLoginReset();
     isAccessTokenReset();
     isRefreshTokenReset();
     navigate("/");
   };
-  const navigate = useNavigate();
   const goHome = () => {
     navigate("/");
   };
@@ -75,16 +72,15 @@ const Header = () => {
     navigate("/mypage");
   };
 
-  // const { isLoading, data } = useQuery<UserInfoInterface>(
-  //   ["userInfo", accessToken],
-  //   () => userInfo(accessToken)
-  // );
-
   if (accessToken !== "") {
     userInfo(accessToken).then((res) => {
       const resultCode = res?.data?.data.resultCode;
-      const data = res?.data?.data?.data;
-      setUserInfo(data);
+      if (resultCode == 1) {
+        const data = res?.data?.data?.data;
+        setName(data?.name);
+      } else if (resultCode == 1011) {
+        alert("유저 정보 호출에 실패했습니다");
+      }
     });
   }
   return (
@@ -124,7 +120,7 @@ const Header = () => {
         {login ? (
           <div className="w-80 flex items-center">
             <div className="flex items-center">
-              {/* <div className="font-semibold">{userInfoList?.name}</div> */}
+              <div className="font-semibold">{name}</div>
               <div>님</div>
             </div>
             <div className="w-px h-3 mx-2 bg-gray-200" />

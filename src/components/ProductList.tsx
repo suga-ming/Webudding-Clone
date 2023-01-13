@@ -1,13 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { productInterface } from "../api/product";
 
 const Svg = styled.svg`
   width: 15px;
   margin-right: 4px;
 `;
 
-const ProductList = () => {
+const ProductList = ({ id, productName, price }: productInterface) => {
   const navigate = useNavigate();
   const GoProductDetail = () => {
     navigate("/product");

@@ -28,18 +28,15 @@ const Category = styled.span`
 `;
 
 const ProductListArea = () => {
-  //   const { isLoading, data } = useQuery<[productInterface]>(
-  //     "productList",
-  //     productList
-  //   );
-
-  // const [product, setProduct] = useState([]);
-  // useEffect(() => {
-  //   (async (data) => {
-  //     const res = await productList(data);
-  //     setProduct(res.data);
-  //   })();
-  // }, []);
+  const [product, setProduct] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const res = await productList();
+      const resultCode = res?.data?.data?.resultCode;
+      setProduct(res?.data?.data?.data.items.slice(0, 4));
+    })();
+  }, []);
+  console.log(product);
 
   return (
     <div>
@@ -93,10 +90,9 @@ const ProductListArea = () => {
         </div>
       </div>
       <div className="flex px-40">
-        <ProductList />
-        <ProductList />
-        <ProductList />
-        <ProductList />
+        {product.map((item) => (
+          <ProductList key={item?.id} item={item} />
+        ))}
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { useQuery } from "react-query";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { userInfo, UserInfoInterface } from "../api/User";
 import { isAccessToken } from "../store/recoil";
@@ -17,11 +18,23 @@ const Height = styled.div`
 `;
 
 const MyPage = () => {
+  const [name, setName] = useState("");
+  const [gender, setGender] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const accessToken = useRecoilValue(isAccessToken);
-  // const { isLoading, data } = useQuery<UserInfoInterface>(
-  //   ["userInfo", accessToken],
-  //   () => userInfo(accessToken)
-  // );
+
+  if (accessToken !== "") {
+    userInfo(accessToken).then((res) => {
+      const resultCode = res?.data?.data.resultCode;
+      const data = res?.data?.data?.data;
+      setName(data?.name);
+      setGender(data?.gender);
+      setEmail(data?.email);
+      setPhone(data?.phone);
+    });
+  }
+
   return (
     <Height className="flex flex-col h-full justify-center items-center bg-gray-200">
       <div className="w-3/6 bg-white rounded-xl">
@@ -32,17 +45,15 @@ const MyPage = () => {
           <div className="w-[72px] h-[72px] rounded-full ml-8 bg-we_pink" />
           <div className="ml-6">
             <div className="flex items-end">
-              {/* <div className="text-xl font-semibold mr-2">{data?.name}</div> */}
+              <div className="text-xl font-semibold mr-2">{name}</div>
               <div className="flex items-center text-sm text-gray-400">
                 <div>1999-01-16</div>
                 <div className="h-3 w-px mx-1 bg-gray-400" />
-                {/* <div>{data?.gender}</div> */}
+                <div>{gender}</div>
               </div>
             </div>
-            <div className="font-semibold text-gray-600 my-1">
-              {/* {data?.email} */}
-            </div>
-            {/* <div>{data?.phone}</div> */}
+            <div className="font-semibold text-gray-600 my-1">{email}</div>
+            <div>{phone}</div>
           </div>
         </div>
         <div className="flex justify-center items-center">

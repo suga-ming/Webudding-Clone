@@ -49,7 +49,6 @@ export const userInfo = async (accessToken: string) => {
         "x-access-auth": accessToken,
       },
     });
-    // .then((res) => res?.data.data.data);
   } catch (err) {
     console.log(err);
   }
