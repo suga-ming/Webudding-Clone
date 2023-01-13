@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { cartList, CartListInterface } from "../api/cart";
@@ -23,7 +24,7 @@ const Cart = () => {
     <Height className="flex flex-col h-full justify-center items-center bg-gray-200">
       {isLoading ? (
         <>isLoading...</>
-      ) : data?.data.length == 0 ? (
+      ) : data?.data.length ? (
         <div className="w-3/5 bg-white rounded-xl">
           <Solid className="font-semibold text-xl py-5 pl-7">장바구니</Solid>
           <div className="flex flex-col items-center">
@@ -34,7 +35,10 @@ const Cart = () => {
           </div>
         </div>
       ) : (
-        <>
+        <div className="w-4/5 bg-white rounded-xl mb-5 flex flex-col justify-center items-center">
+          <Solid className="w-full font-semibold text-xl py-5 pl-7">
+            장바구니
+          </Solid>
           {data?.data.map((item) => (
             <CartList
               name={item.productName}
@@ -42,7 +46,7 @@ const Cart = () => {
               price={item.price}
             />
           ))}
-        </>
+        </div>
       )}
     </Height>
   );
