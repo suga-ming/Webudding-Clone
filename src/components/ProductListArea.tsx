@@ -88,7 +88,7 @@ const ProductListArea = () => {
         <div>Loading...</div>
       ) : (
         <div className="flex px-40">
-          {data?.data.items.slice(0, 4).map((item) => (
+          {data?.data.items?.slice(0, 4).map((item) => (
             <ProductList
               key={item?.id}
               id={item?.id}
