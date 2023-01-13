@@ -1,36 +1,68 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { productInterface } from "../api/product";
+import { cartAdd } from "../api/cart";
 
 const Svg = styled.svg`
   width: 15px;
   margin-right: 4px;
 `;
 
-const ProductList = ({ id, productName, price }: productInterface) => {
+interface ProductProps {
+  id: number;
+  name: string;
+  thumb: string;
+  price: number;
+  rating: number;
+  detail: string;
+}
+
+const ProductList = ({
+  id,
+  name,
+  thumb,
+  price,
+  rating,
+  detail,
+}: ProductProps) => {
   const navigate = useNavigate();
   const GoProductDetail = () => {
     navigate("/product");
   };
+
+  const addCart = async (productId: number) => {
+    const res = await cartAdd({ productId });
+    const resultCode = res?.data.data.resultCode;
+    if (resultCode == 1) {
+      alert("장바구니에 담겼습니다");
+    } else if (resultCode == -1) {
+      alert("요청값 에러");
+    } else if (resultCode == 1201) {
+      alert("장바구니 추가 실패");
+    }
+  };
+
   return (
     <div className="mr-5">
-      {/* <img /> */}
-      <div
+      <img
         onClick={GoProductDetail}
-        className="w-64 h-64 bg-pink-300 mb-4 rounded-xl cursor-pointer"
+        className="w-64 h-64 mb-4 rounded-xl cursor-pointer"
+        src={thumb}
       />
       <div className="text-xs text-gray-500 mb-1">페이퍼플래닛</div>
       <div
         onClick={GoProductDetail}
         className="font-medium mb-7 cursor-pointer hover:underline"
       >
-        만년형 종이질감 올인원 플래너
+        {name}
       </div>
       <div className="flex mb-3">
-        <div className="font-semibold mr-1 text-sm">12,000원</div>
-        <div className="text-we_pink mr-1 font-medium text-sm">52%</div>
-        <div className="text-gray-500 line-through text-sm">25,000원</div>
+        <div className="font-semibold mr-1 text-sm">{price}원</div>
+        <div className="text-we_pink mr-1 font-medium text-sm">20%</div>
+        <div className="text-gray-500 line-through text-sm">
+          {Math.floor(price / 0.8)}원
+        </div>
       </div>
       <div className="flex">
         <div className="flex mr-2">
@@ -58,7 +90,9 @@ const ProductList = ({ id, productName, price }: productInterface) => {
               d="M423.3 440.7c0 25.3-20.3 45.6-45.6 45.6s-45.8-20.3-45.8-45.6 20.6-45.8 45.8-45.8c25.4 0 45.6 20.5 45.6 45.8zm-253.9-45.8c-25.3 0-45.6 20.6-45.6 45.8s20.3 45.6 45.6 45.6 45.8-20.3 45.8-45.6-20.5-45.8-45.8-45.8zm291.7-270C158.9 124.9 81.9 112.1 0 25.7c34.4 51.7 53.3 148.9 373.1 144.2 333.3-5 130 86.1 70.8 188.9 186.7-166.7 319.4-233.9 17.2-233.9z"
             />
           </Svg>
-          <div className="text-sm text-gray-400">Cart</div>
+          <div onClick={() => addCart(id)} className="text-sm text-gray-400">
+            Cart
+          </div>
         </div>
       </div>
     </div>

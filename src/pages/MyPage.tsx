@@ -1,8 +1,14 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { userInfo, UserInfoInterface } from "../api/User";
+import {
+  userInfo,
+  UserInfoInterface,
+  userInfoUadate,
+  UserInfoUpdateInterface,
+} from "../api/User";
 import { isAccessToken } from "../store/recoil";
 
 const Solid = styled.div`
@@ -13,8 +19,13 @@ const Solid2 = styled.div`
   border: 1px solid gray;
 `;
 
+const Input = styled.input`
+  border: 1px solid gray;
+`;
+
 const Height = styled.div`
-  height: calc(100vh - 165px);
+  /* height: calc(100vh - 165px); */
+  /* margin-top: 165px; */
 `;
 
 const MyPage = () => {
@@ -35,9 +46,24 @@ const MyPage = () => {
     });
   }
 
+  const { register, handleSubmit, reset } = useForm<UserInfoUpdateInterface>();
+  const onSubmit = async (data: UserInfoUpdateInterface) => {
+    const res = await userInfoUadate(data);
+    const resultCode = res?.data.data.resultCode;
+    if (resultCode === 1) {
+      alert("정보 수정 완료");
+      reset({
+        password: "",
+        name: "",
+        gender: "",
+        phone: "",
+      });
+    } else if (resultCode === 1021) alert("정보 수정 실패");
+  };
+
   return (
     <Height className="flex flex-col h-full justify-center items-center bg-gray-200">
-      <div className="w-3/6 bg-white rounded-xl">
+      <div className="w-3/6 bg-white rounded-xl my-8">
         <Solid className="font-semibold text-xl py-5 pl-7">
           회원 정보 수정
         </Solid>
@@ -84,6 +110,34 @@ const MyPage = () => {
               />
             </svg>
           </div>
+        </div>
+        <div className="px-8">
+          <div className="mb-2">이름</div>
+          <Input
+            className="w-full h-10 rounded-lg pl-2 placeholder:text-sm mb-4"
+            placeholder="이름을 입력해주세요"
+          />
+        </div>
+        <div className="px-8">
+          <div className="mb-2">폰 번호</div>
+          <Input
+            className="w-full h-10 rounded-lg pl-2 placeholder:text-sm mb-4"
+            placeholder="폰 번호를 입력해주세요"
+          />
+        </div>
+        <div className="px-8">
+          <div className="mb-2">성별</div>
+          <Input
+            className="w-full h-10 rounded-lg pl-2 placeholder:text-sm mb-4"
+            placeholder="성별을 입력해주세요"
+          />
+        </div>
+        <div className="px-8 mb-8">
+          <div className="mb-2">새 비밀번호</div>
+          <Input
+            className="w-full h-10 rounded-lg pl-2 placeholder:text-sm"
+            placeholder="영문자, 숫자, 특수문자로 이루어진 8~20자"
+          />
         </div>
         <div className="flex justify-center items-center">
           <div className="w-full mb-10 bg-we_pink max-w-[650px] h-11 rounded-lg text-white flex justify-center items-center text-sm font-semibold">

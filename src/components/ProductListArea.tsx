@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { productInterface, productList } from "../api/product";
+import { cartAdd } from "../api/cart";
+import { ProductInterface, productList } from "../api/product";
 import ProductList from "./ProductList";
 
 const DownSvg = styled.svg`
@@ -28,15 +29,9 @@ const Category = styled.span`
 `;
 
 const ProductListArea = () => {
-  const [product, setProduct] = useState([]);
-  useEffect(() => {
-    (async () => {
-      const res = await productList();
-      const resultCode = res?.data?.data?.resultCode;
-      setProduct(res?.data?.data?.data.items.slice(0, 4));
-    })();
-  }, []);
-  console.log(product);
+  const { isLoading, data } = useQuery<ProductInterface>([`product`], () =>
+    productList()
+  );
 
   return (
     <div>
@@ -89,11 +84,23 @@ const ProductListArea = () => {
           </Category>
         </div>
       </div>
-      <div className="flex px-40">
-        {product.map((item) => (
-          <ProductList key={item?.id} item={item} />
-        ))}
-      </div>
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <div className="flex px-40">
+          {data?.data.items.slice(0, 4).map((item) => (
+            <ProductList
+              key={item?.id}
+              id={item?.id}
+              name={item?.productName}
+              thumb={item?.thumb}
+              price={item?.price}
+              rating={item?.rating}
+              detail={item?.detail}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
