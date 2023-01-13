@@ -16,7 +16,6 @@
 .env.local
 .env.dev
 .env.prod
-
 .env
 
 npm-debug.log*
