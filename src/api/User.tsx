@@ -61,17 +61,28 @@ export const userInfo = async (accessToken: string) => {
   }
 };
 
-export const userInfoUadate = async (body: UserInfoUpdateInterface) => {
+export const userInfoUadate = async (
+  body: UserInfoUpdateInterface,
+  accessToken: string
+) => {
   try {
-    return await api.patch("/user/update", body);
+    return await api.patch("/user/update", body, {
+      headers: {
+        "x-access-auth": accessToken,
+      },
+    });
   } catch (err) {
     console.log(err);
   }
 };
 
-export const userDelete = async () => {
+export const userDelete = async (accessToken: string) => {
   try {
-    return await api.delete("/user/delete");
+    return await api.delete("/user/delete", {
+      headers: {
+        "x-access-auth": accessToken,
+      },
+    });
   } catch (err) {
     console.log(err);
   }

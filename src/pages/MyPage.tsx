@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useNavigate } from "react-router-dom";
+import {
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from "recoil";
 import styled from "styled-components";
 import {
   userDelete,
@@ -10,7 +16,7 @@ import {
   userInfoUadate,
   UserInfoUpdateInterface,
 } from "../api/User";
-import { isAccessToken } from "../store/recoil";
+import { isAccessToken, isLogin, isRefreshToken } from "../store/recoil";
 
 const Solid = styled.div`
   border-bottom: 1px solid rgb(209 213 219);
@@ -35,6 +41,11 @@ const MyPage = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const accessToken = useRecoilValue(isAccessToken);
+  const isLoginReset = useResetRecoilState(isLogin);
+  const isAccessTokenReset = useResetRecoilState(isAccessToken);
+  const isRefreshTokenReset = useResetRecoilState(isRefreshToken);
+
+  const navigate = useNavigate();
 
   if (accessToken !== "") {
     userInfo(accessToken).then((res) => {
@@ -48,8 +59,11 @@ const MyPage = () => {
   }
 
   const { register, handleSubmit, reset } = useForm<UserInfoUpdateInterface>();
-  const onSubmit = async (data: UserInfoUpdateInterface) => {
-    const res = await userInfoUadate(data);
+  const onSubmit = async (
+    data: UserInfoUpdateInterface,
+    accessToken: string
+  ) => {
+    const res = await userInfoUadate(data, accessToken);
     const resultCode = res?.data.data.resultCode;
     if (resultCode === 1) {
       alert("정보 수정 완료");
@@ -62,12 +76,16 @@ const MyPage = () => {
     } else if (resultCode === 1021) alert("정보 수정 실패");
   };
 
-  const deleteCart = async () => {
-    const res = await userDelete();
+  const deleteCart = async (accessToken: string) => {
+    const res = await userDelete(accessToken);
     console.log(res);
     const resultCode = res?.data.data.resultCode;
     if (resultCode == 1) {
       alert("탈퇴되셨습니다");
+      isLoginReset();
+      isAccessTokenReset();
+      isRefreshTokenReset();
+      navigate("/");
     } else if (resultCode == 1031) {
       alert("탈퇴 실패");
     }
@@ -152,11 +170,14 @@ const MyPage = () => {
           />
         </div>
         <div className="flex flex-col justify-center items-center">
-          <div className="w-full mb-5 bg-we_pink max-w-[650px] h-11 rounded-lg text-white flex justify-center items-center text-sm font-semibold cursor-pointer">
+          <div
+            onSubmit={handleSubmit(onSubmit)}
+            className="w-full mb-5 bg-we_pink max-w-[650px] h-11 rounded-lg text-white flex justify-center items-center text-sm font-semibold cursor-pointer"
+          >
             변경 정보 저장하기
           </div>
           <div
-            onClick={deleteCart}
+            onClick={() => deleteCart(accessToken)}
             className="w-full mb-10 bg-gray-500 max-w-[650px] h-11 rounded-lg text-white flex justify-center items-center text-sm font-semibold cursor-pointer"
           >
             회원 탈퇴하기
