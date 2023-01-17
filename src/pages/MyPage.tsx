@@ -145,7 +145,7 @@ const MyPage = () => {
             {...register("name")}
             // value={name}
             className="w-full h-10 rounded-lg pl-2 placeholder:text-sm mb-4"
-            placeholder="이름을 입력해주세요"
+            placeholder={name}
           ></Input>
         </div>
         <div className="px-8">
@@ -154,7 +154,7 @@ const MyPage = () => {
             {...register("phone")}
             // value={phone}
             className="w-full h-10 rounded-lg pl-2 placeholder:text-sm mb-4"
-            placeholder="폰 번호를 입력해주세요"
+            placeholder={phone}
           />
         </div>
         <div className="px-8">
@@ -163,7 +163,7 @@ const MyPage = () => {
             {...register("gender")}
             // value={gender}
             className="w-full h-10 rounded-lg pl-2 placeholder:text-sm mb-4"
-            placeholder="성별을 입력해주세요"
+            placeholder={gender}
           />
         </div>
         <div className="px-8 mb-8">
