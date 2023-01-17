@@ -53,15 +53,33 @@ const CartList = ({ thumb, name, price, cartId, quantity }: CartListProps) => {
   };
 
   const PatchCart = async (body: CartPatchInterface) => {
-    const res = await cartPatch(body);
-    console.log(res);
-    const resultCode = res?.data.data.resultCode;
-    if (resultCode == 1) {
-      alert("장바구니 수정 성공");
-    } else if (resultCode == -1) {
-      alert("요청값 에러");
-    } else if (resultCode == 1231) {
-      alert("장바구니 수정 실패");
+    const { plus, quantity } = body;
+    if (plus === false) {
+      if (quantity === 1) {
+        alert(`1보다 작은 수량입니다`);
+      } else {
+        const res = await cartPatch(body);
+        console.log(res);
+        const resultCode = res?.data.data.resultCode;
+        if (resultCode == 1) {
+          alert("장바구니 수정 성공");
+        } else if (resultCode == -1) {
+          alert("요청값 에러");
+        } else if (resultCode == 1231) {
+          alert("장바구니 수정 실패");
+        }
+      }
+    } else {
+      const res = await cartPatch(body);
+      console.log(res);
+      const resultCode = res?.data.data.resultCode;
+      if (resultCode == 1) {
+        alert("장바구니 수정 성공");
+      } else if (resultCode == -1) {
+        alert("요청값 에러");
+      } else if (resultCode == 1231) {
+        alert("장바구니 수정 실패");
+      }
     }
   };
   // const onMinus = () => {
@@ -103,14 +121,14 @@ const CartList = ({ thumb, name, price, cartId, quantity }: CartListProps) => {
       <div className="flex">
         <div className="flex items-center mr-7">
           <Minus
-            onClick={() => PatchCart({ cartId, plus: false })}
+            onClick={() => PatchCart({ cartId, plus: false, quantity })}
             quantity={quantity}
           >
             -
           </Minus>
           <div className="mx-2">{quantity}</div>
           <Plus
-            onClick={() => PatchCart({ cartId, plus: true })}
+            onClick={() => PatchCart({ cartId, plus: true, quantity })}
             quantity={quantity}
           >
             +

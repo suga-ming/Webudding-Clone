@@ -21,6 +21,7 @@ export interface CartListInterface {
 export interface CartPatchInterface {
   cartId: number;
   plus: boolean;
+  quantity: number;
 }
 
 export const cartAdd = async (body: AddCartInterface) => {
