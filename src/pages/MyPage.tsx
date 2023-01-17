@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import {
+  userDelete,
   userInfo,
   UserInfoInterface,
   userInfoUadate,
@@ -59,6 +60,17 @@ const MyPage = () => {
         phone: "",
       });
     } else if (resultCode === 1021) alert("정보 수정 실패");
+  };
+
+  const deleteCart = async () => {
+    const res = await userDelete();
+    console.log(res);
+    const resultCode = res?.data.data.resultCode;
+    if (resultCode == 1) {
+      alert("탈퇴되셨습니다");
+    } else if (resultCode == 1031) {
+      alert("탈퇴 실패");
+    }
   };
 
   return (
@@ -139,9 +151,15 @@ const MyPage = () => {
             placeholder="영문자, 숫자, 특수문자로 이루어진 8~20자"
           />
         </div>
-        <div className="flex justify-center items-center">
-          <div className="w-full mb-10 bg-we_pink max-w-[650px] h-11 rounded-lg text-white flex justify-center items-center text-sm font-semibold">
+        <div className="flex flex-col justify-center items-center">
+          <div className="w-full mb-5 bg-we_pink max-w-[650px] h-11 rounded-lg text-white flex justify-center items-center text-sm font-semibold cursor-pointer">
             변경 정보 저장하기
+          </div>
+          <div
+            onClick={deleteCart}
+            className="w-full mb-10 bg-gray-500 max-w-[650px] h-11 rounded-lg text-white flex justify-center items-center text-sm font-semibold cursor-pointer"
+          >
+            회원 탈퇴하기
           </div>
         </div>
       </div>

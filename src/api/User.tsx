@@ -68,3 +68,11 @@ export const userInfoUadate = async (body: UserInfoUpdateInterface) => {
     console.log(err);
   }
 };
+
+export const userDelete = async () => {
+  try {
+    return await api.patch("/user/delete");
+  } catch (err) {
+    console.log(err);
+  }
+};

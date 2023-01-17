@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
+import { useResetRecoilState } from "recoil";
 import styled from "styled-components";
 import { cartList, CartListInterface } from "../api/cart";
 import CartList from "./CartList";
@@ -16,15 +17,11 @@ const Cart = () => {
   const { isLoading, data } = useQuery<CartListInterface>([`product`], () =>
     cartList()
   );
-  console.log(data?.data);
-  console.log("확인", data?.data.length);
-  console.log(typeof data?.data.length);
-  console.log("확인", data?.data[0].price);
   return (
     <Height className="flex flex-col h-full justify-center items-center bg-gray-200">
       {isLoading ? (
         <>isLoading...</>
-      ) : data?.data.length ? (
+      ) : !data?.data.length ? (
         <div className="w-3/5 bg-white rounded-xl">
           <Solid className="font-semibold text-xl py-5 pl-7">장바구니</Solid>
           <div className="flex flex-col items-center">
@@ -41,9 +38,12 @@ const Cart = () => {
           </Solid>
           {data?.data.map((item) => (
             <CartList
+              key={item.cartId}
+              cartId={item.cartId}
               name={item.productName}
               thumb={item.thumb}
               price={item.price}
+              quantity={item.quantity}
             />
           ))}
         </div>
