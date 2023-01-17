@@ -71,7 +71,7 @@ export const userInfoUadate = async (body: UserInfoUpdateInterface) => {
 
 export const userDelete = async () => {
   try {
-    return await api.patch("/user/delete");
+    return await api.delete("/user/delete");
   } catch (err) {
     console.log(err);
   }

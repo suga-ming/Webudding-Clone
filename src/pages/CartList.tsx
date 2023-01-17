@@ -19,7 +19,7 @@ const Minus = styled.button<{ quantity: number }>`
   border-radius: 100%;
   border: ${(props) =>
     props.quantity == 1 ? "1px solid #d3d4d6" : "1px solid gray"};
-  color: ${(props) => (props.quantity == 0 ? "#d3d4d6" : "gray")};
+  color: ${(props) => (props.quantity == 1 ? "#d3d4d6" : "gray")};
   display: flex;
   justify-content: center;
   align-items: center;
