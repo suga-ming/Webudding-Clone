@@ -82,20 +82,7 @@ const CartList = ({ thumb, name, price, cartId, quantity }: CartListProps) => {
       }
     }
   };
-  // const onMinus = () => {
-  //   if (quantity > 1) {
-  //     plus(false)
-  //   } else {
-  //     quantity;
-  //   }
-  // };
-  // const onPlus = () => {
-  //   if (quantity > 100) {
-  //     quantity;
-  //   } else {
-  //     plus(true)
-  //   }
-  // };
+
   return (
     <Solid className="w-full rounded-xl py-4 px-8 flex items-center justify-between">
       <div className="flex items-center">
